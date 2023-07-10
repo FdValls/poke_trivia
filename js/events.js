@@ -20,6 +20,8 @@ let removeClassSuccess = document.querySelector(".block");
 let imgPokemon = document.getElementById("imgpokemon");
 let txtRemove = document.getElementById("resultText")
 let puntaje = document.getElementById("puntaje")
+
+//Rules
 let flag = false
 let LIMIT = 3
 
@@ -47,32 +49,9 @@ function agregarEventos(pokemons) {
 
         if (pokemons[numero].name.toLowerCase() == nameInput) {
           resultText.textContent = "¡Felicidades! es " + pokemons[numero].name
-          //Aca adivino el pokemon, llamo a la funcion que cree
-          async function main() {
-            const pokemonStats = await findPokemon(pokemons[numero].id);
-            if (pokemonStats) {
-              pokeName.textContent = pokemonStats.name;
-              pokeId.textContent = pokemonStats.number;
-              if (pokemonStats.types.length > 1) {
-                pokeTypesSlot1.textContent = pokemonStats.types[0]
-                pokeTypesSlot2.textContent = pokemonStats.types[1]
-              } else {
-                //Agrego un salto de linea para no romper el estilo (se subia la pokeball )
-                const brElement = document.createElement("br");
-                pokeTypes.insertBefore(brElement, pokeTypesSlot2);
-                pokeTypesSlot1.textContent = pokemonStats.types[0]
-                pokeTypes.removeChild(pokeTypesSlot2)
-              }
-              hp.textContent = pokemonStats.stats.hp
-              attack.textContent = pokemonStats.stats.attack
-              defense.textContent = pokemonStats.stats.defense
-              specialAttack.textContent = pokemonStats.stats.specialAttack
-              specialDefense.textContent = pokemonStats.stats.specialDefense
-              speed.textContent = pokemonStats.stats.speed
-            }
-          }
 
-          main();
+          console.log(busquedaDePokemon(pokemons[numero].id));
+          busquedaDePokemon(pokemons[numero].id);
 
           cantidadAcertados += 1
           localStorage.setItem("cantidadAcertados", cantidadAcertados)
@@ -115,3 +94,28 @@ const restart = (numero) => {
   return numero
 
 };
+
+//Si adivino el pokemon llamo a la funcion que cree
+async function busquedaDePokemon(numero) {
+  const pokemonStats = await findPokemon(numero);
+  if (pokemonStats) {
+    pokeName.textContent = pokemonStats.name;
+    pokeId.textContent = pokemonStats.number;
+    if (pokemonStats.types.length > 1) {
+      pokeTypesSlot1.textContent = pokemonStats.types[0]
+      pokeTypesSlot2.textContent = pokemonStats.types[1]
+    } else {
+      //Agrego un salto de linea para no romper el estilo (se subia la pokeball)
+      const brElement = document.createElement("br");
+      pokeTypes.insertBefore(brElement, pokeTypesSlot2);
+      pokeTypesSlot1.textContent = pokemonStats.types[0]
+      pokeTypes.removeChild(pokeTypesSlot2)
+    }
+    hp.textContent = pokemonStats.stats.hp
+    attack.textContent = pokemonStats.stats.attack
+    defense.textContent = pokemonStats.stats.defense
+    specialAttack.textContent = pokemonStats.stats.specialAttack
+    specialDefense.textContent = pokemonStats.stats.specialDefense
+    speed.textContent = pokemonStats.stats.speed
+  }
+}

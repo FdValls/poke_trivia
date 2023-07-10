@@ -1,7 +1,5 @@
 //Se coloca toda la lógica respecto a la API de pokemon y la información que se muestra del mismo.
 
-const pokeCard = document.querySelector('#data-poke-card');
-
 async function findPokemon(numero) {
     try {
 
@@ -37,17 +35,6 @@ async function findPokemon(numero) {
         return pokemonStats;
 
     } catch (error) {
-        // alert("No se encontro ese pokemon")
-        console.log("No se encontro ese pokemon")
+        console.log("Error en la API "+ error)
     }
 };
-
-// findPokemon(1)
-
-
-
-
-
-
-
-
