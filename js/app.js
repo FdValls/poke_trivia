@@ -11,4 +11,3 @@ let pokemons = pokes.map(function(p){
 });
 
 agregarEventos(pokemons);
-// restart(numero);
