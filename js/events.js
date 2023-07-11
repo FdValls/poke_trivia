@@ -90,7 +90,7 @@ function agregarEventos(pokemons) {
         flag = false
       }
       setPuntajeBajo(cantidadEncuestados, cantidadAcertados)
-      puntaje.textContent = "Puntaje " + cantidadAcertados + " de " + cantidadEncuestados
+      puntaje.textContent = "Puntaje " + parseInt(cantidadAcertados) + " de " + parseInt(cantidadEncuestados)
 
     }
   }
