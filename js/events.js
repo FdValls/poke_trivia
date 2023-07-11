@@ -1,5 +1,7 @@
+"use strict";
 
 const send = document.getElementById('send')
+const reset = document.getElementById('reset')
 const reload = document.getElementById('reload')
 const txtInput = document.querySelector("input");
 const resultText = document.getElementById("resultText");
@@ -23,69 +25,83 @@ let puntaje = document.getElementById("puntaje")
 
 //Rules
 let flag = false
-let LIMIT = 3
+let LIMIT = 10
 
 function agregarEventos(pokemons) {
   numero = Math.floor(Math.random() * pokemons.length);
   imgPokemon.src = pokemons[numero].thumbnail
 
   reload.onclick = () => {
-    restart(numero)
-    numero = restart(numero)
-    if (localStorage.getItem("cantidadEncuestados") == LIMIT) {
+    numero = restart()
+    //Cuando llega a 10 termina el juego, y se resetea los contadores
+    if (cantidadEncuestados == LIMIT) {
       localStorage.setItem("cantidadEncuestados", 0)
       localStorage.setItem("cantidadAcertados", 0)
-      window.location.reload()
+      puntaje.textContent = "Puntaje " + 0 + " de " + 0
+      cantidadAcertados > cantidadEncuestados / 2 ? alert("GANASTE!") : alert("PERDISTE")
     }
+    //Una vez adivinado el pokemon cuando recargo reseteo los stats
+    restartStats()
+    txtInput.value = ""
     flag = false
   }
 
+  reset.onclick = () => {
+    //Reseteo toda la app
+    alert("RESTART APP")
+    restartStats()
+    localStorage.setItem("cantidadEncuestados", 0)
+    localStorage.setItem("cantidadAcertados", 0)
+    puntaje.textContent = "Puntaje " + 0 + " de " + 0
+  }
+
   send.onclick = () => {
+    //Este Flag es para cuando clickea enviar, solo lo permita 1 vez sola, al tocar RELOAD vuelve a permitir volver a enviar la rta
     if (!flag) {
       let nameInput = txtInput.value.toLowerCase()
       if (txtInput.value.length != 0) {
-        cantidadEncuestados += 1
+        //Incremento el localStorage encuestados +1
+        cantidadEncuestados = parseInt(localStorage.getItem("cantidadEncuestados"));
+        cantidadEncuestados += 1;
+
         localStorage.setItem("cantidadEncuestados", cantidadEncuestados)
 
+
         if (pokemons[numero].name.toLowerCase() == nameInput) {
+          //Si acierto, incremento el localStorage acertados +1
+          cantidadAcertados = parseInt(localStorage.getItem("cantidadAcertados"));
+          cantidadAcertados += 1;
+          localStorage.setItem("cantidadAcertados", cantidadAcertados)
+
           resultText.textContent = "¡Felicidades! es " + pokemons[numero].name
 
           console.log(busquedaDePokemon(pokemons[numero].id));
           busquedaDePokemon(pokemons[numero].id);
 
-          cantidadAcertados += 1
-          localStorage.setItem("cantidadAcertados", cantidadAcertados)
         } else {
           resultText.textContent = "NO!, es " + pokemons[numero].name
         }
         removeClassSuccess.classList.remove("block");
         removeClassSuccess.classList.add("success");
+        flag = true
+
       } else {
         alert("Debe colocar el nombre de un pokemon")
+        flag = false
       }
       setPuntajeBajo(cantidadEncuestados, cantidadAcertados)
-      flag = true
       puntaje.textContent = "Puntaje " + cantidadAcertados + " de " + cantidadEncuestados
-      flag = true
-    }
-    if (localStorage.getItem("cantidadEncuestados") == null || localStorage.getItem("cantidadAcertados") == null) {
-      localStorage.setItem("cantidadEncuestados", 0)
-      localStorage.setItem("cantidadAcertados", 0)
-    } else {
-      localStorage.getItem("cantidadEncuestados")
-      localStorage.getItem("cantidadAcertados")
-    }
 
+    }
   }
 
 }
 
-const setPuntajeBajo = (cantidadEncuestados, cantidadAcertados) => {
+const setPuntajeBajo = () => {
   cantidadAcertados > cantidadEncuestados / 2 ? puntaje.classList.remove("puntajeBajo") : puntaje.classList.add("puntajeBajo")
 }
 
-const restart = (numero) => {
-
+const restart = () => {
   txtRemove.textContent = ""
   removeClassSuccess.classList.add("block")
   numero = Math.floor(Math.random() * pokemons.length);
@@ -118,4 +134,17 @@ async function busquedaDePokemon(numero) {
     specialDefense.textContent = pokemonStats.stats.specialDefense
     speed.textContent = pokemonStats.stats.speed
   }
+}
+
+async function restartStats() {
+  pokeName.textContent = "NAME"
+  pokeId.textContent = "N° ..."
+  pokeTypesSlot1.textContent = "TYPE 1"
+  pokeTypesSlot2.textContent = "TYPE 2"
+  hp.textContent = "99"
+  attack.textContent = "99"
+  defense.textContent = "99"
+  specialAttack.textContent = "99"
+  specialDefense.textContent = "99"
+  speed.textContent = "99"
 }
