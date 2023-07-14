@@ -14,6 +14,6 @@ cantidadAcertados = localStorage.getItem("cantidadAcertados")
 cantidadEncuestados = localStorage.getItem("cantidadEncuestados")
 
 puntaje.textContent = "Puntaje " + parseInt(cantidadAcertados) + " de " + parseInt(cantidadEncuestados)
-setPuntajeBajo(cantidadEncuestados, cantidadAcertados)
+setPuntajeBajo(parseInt(cantidadEncuestados), parseInt(cantidadAcertados))
 
 agregarEventos(pokemons);
