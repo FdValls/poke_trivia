@@ -108,7 +108,7 @@ function agregarEventos(pokemons) {
 }
 
 const setPuntajeBajo = () => {
-  cantidadAcertados > cantidadEncuestados / 2 ? puntaje.classList.remove("puntajeBajo") : puntaje.classList.add("puntajeBajo")
+  parseInt(cantidadAcertados) > parseInt(cantidadEncuestados) / 2 ? puntaje.classList.remove("puntajeBajo") : puntaje.classList.add("puntajeBajo")
 }
 
 const restart = () => {
