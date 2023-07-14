@@ -10,6 +10,7 @@ const pokeId = document.getElementById("data-poke-id");
 const pokeTypes = document.getElementById("data-poke-types");
 const pokeTypesSlot1 = document.getElementById("slot1");
 const pokeTypesSlot2 = document.getElementById("slot2");
+const brElement = document.createElement("br");
 
 const hp = document.getElementById("hp");
 const attack = document.getElementById("attack");
@@ -32,7 +33,13 @@ function agregarEventos(pokemons) {
   imgPokemon.src = pokemons[numero].thumbnail
 
   reload.onclick = () => {
-    numero = restart()
+    restart()
+    pokeTypes.appendChild(pokeTypesSlot2)
+    //Verifico la existencia del <br> antes de pokeTypesSlot2 y si existe lo borro
+    const previousElement = pokeTypesSlot2.previousSibling;
+    if (previousElement && (previousElement.nodeName === "BR" || previousElement.tagName === "BR")) {
+      pokeTypes.removeChild(brElement)
+    }
     //Cuando llega a 10 termina el juego, y se resetea los contadores
     if (cantidadEncuestados == LIMIT) {
       localStorage.setItem("cantidadEncuestados", 0)
@@ -48,11 +55,15 @@ function agregarEventos(pokemons) {
 
   reset.onclick = () => {
     //Reseteo toda la app
-    alert("RESTART APP")
+    alert("RESTART APP");
+    restartStats();
+    localStorage.setItem("cantidadEncuestados", parseInt(0));
+    localStorage.setItem("cantidadAcertados", parseInt(0));
+    removeClassSuccess.classList.add("block");
+    removeClassSuccess.classList.remove("success");
+    puntaje.textContent = "Puntaje " + localStorage.getItem("cantidadAcertados") + " de " + localStorage.getItem("cantidadEncuestados")
+    restart()
     restartStats()
-    localStorage.setItem("cantidadEncuestados", 0)
-    localStorage.setItem("cantidadAcertados", 0)
-    puntaje.textContent = "Puntaje " + 0 + " de " + 0
   }
 
   send.onclick = () => {
@@ -90,8 +101,7 @@ function agregarEventos(pokemons) {
         flag = false
       }
       setPuntajeBajo(cantidadEncuestados, cantidadAcertados)
-      puntaje.textContent = "Puntaje " + parseInt(cantidadAcertados) + " de " + parseInt(cantidadEncuestados)
-
+      puntaje.textContent = "Puntaje " + cantidadAcertados + " de " + cantidadEncuestados
     }
   }
 
@@ -122,7 +132,6 @@ async function busquedaDePokemon(numero) {
       pokeTypesSlot2.textContent = pokemonStats.types[1]
     } else {
       //Agrego un salto de linea para no romper el estilo (se subia la pokeball)
-      const brElement = document.createElement("br");
       pokeTypes.insertBefore(brElement, pokeTypesSlot2);
       pokeTypesSlot1.textContent = pokemonStats.types[0]
       pokeTypes.removeChild(pokeTypesSlot2)
