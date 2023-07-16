@@ -86,7 +86,6 @@ function agregarEventos(pokemons) {
 
           resultText.textContent = "¡Felicidades! es " + pokemons[numero].name
 
-          console.log(busquedaDePokemon(pokemons[numero].id));
           busquedaDePokemon(pokemons[numero].id);
 
         } else {
