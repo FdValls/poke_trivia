@@ -21,7 +21,7 @@ const speed = document.getElementById("speed");
 
 let removeClassSuccess = document.querySelector(".block");
 let imgPokemon = document.getElementById("imgpokemon");
-let txtRemove = document.getElementById("resultText")
+let txtResult = document.getElementById("resultText")
 let puntaje = document.getElementById("puntaje")
 
 //Rules
@@ -62,8 +62,8 @@ function agregarEventos(pokemons) {
     removeClassSuccess.classList.add("block");
     removeClassSuccess.classList.remove("success");
     puntaje.textContent = "Puntaje " + localStorage.getItem("cantidadAcertados") + " de " + localStorage.getItem("cantidadEncuestados")
+    flag = false;
     restart()
-    restartStats()
   }
 
   send.onclick = () => {
@@ -111,13 +111,12 @@ const setPuntajeBajo = () => {
 }
 
 const restart = () => {
-  txtRemove.textContent = ""
+  txtResult.textContent = ""
   removeClassSuccess.classList.add("block")
   numero = Math.floor(Math.random() * pokemons.length);
   imgPokemon.src = pokemons[numero].thumbnail
-
+  txtInput.value = ""
   return numero
-
 };
 
 //Si adivino el pokemon llamo a la funcion que cree

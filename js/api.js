@@ -31,7 +31,7 @@ async function findPokemon(numero) {
             speed: data.stats[5].base_stat,
         };
 
-        console.log(pokemonStats)
+        // console.log(pokemonStats)
         return pokemonStats;
 
     } catch (error) {
