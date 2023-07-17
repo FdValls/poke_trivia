@@ -26,7 +26,7 @@ let puntaje = document.getElementById("puntaje")
 
 //Rules
 let flag = false
-let LIMIT = 10
+let LIMIT = 3
 
 function agregarEventos(pokemons) {
   numero = Math.floor(Math.random() * pokemons.length);
@@ -42,11 +42,17 @@ function agregarEventos(pokemons) {
     }
     //Cuando llega a 10 termina el juego, y se resetea los contadores
     if (cantidadEncuestados == LIMIT) {
+      cantidadAcertados > cantidadEncuestados / 2 ? alert("GANASTE!") : alert("PERDISTE")
       localStorage.setItem("cantidadEncuestados", 0)
       localStorage.setItem("cantidadAcertados", 0)
       puntaje.textContent = "Puntaje " + 0 + " de " + 0
-      cantidadAcertados > cantidadEncuestados / 2 ? alert("GANASTE!") : alert("PERDISTE")
+      restart()
+      restartStats()
+      window.location.reload()
     }
+
+
+
     //Una vez adivinado el pokemon cuando recargo reseteo los stats
     restartStats()
     txtInput.value = ""
