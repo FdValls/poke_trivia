@@ -10,10 +10,11 @@ let pokemons = pokes.map(function(p){
     return new Pokemon(p.id, p.name)
 });
 
-cantidadAcertados = localStorage.getItem("cantidadAcertados")
-cantidadEncuestados = localStorage.getItem("cantidadEncuestados")
+cantidadAcertados = parseInt(localStorage.getItem("cantidadAcertados")) || 0;
+cantidadEncuestados = parseInt(localStorage.getItem("cantidadEncuestados")) || 0;
 
-puntaje.textContent = "Puntaje " + cantidadAcertados + " de " + cantidadEncuestados
+
+puntaje.textContent = "Puntaje " + cantidadAcertados.toString() + " de " + cantidadEncuestados.toString()
 setPuntajeBajo(cantidadEncuestados, cantidadAcertados)
 
 agregarEventos(pokemons);
